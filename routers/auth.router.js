@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const authController = require("../controllers/auth.controller");
+const authController = require("../controllers/auth.controller"); // Corrected variable name
 const { verifySignUp } = require("../middlewares");
 
 router.use((req, res, next) => {
@@ -13,7 +13,7 @@ router.use((req, res, next) => {
 
 router.post(
   "/signup",
-  [verifySignUp.checkDuplicateUserNameOrEmail, verifySignUp.checkRolesExisted],
+  [verifySignUp.checkDuplicateUserNameOrEmail, verifySignUp.checkRolesExisted], // Corrected function name
   authController.signup
 );
 
