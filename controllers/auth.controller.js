@@ -23,29 +23,41 @@ exports.signup = async (req, res) => {
     password: bcrypt.hashSync(password, 8),
   };
 
-  try {
-    // Save user in the database
-    const user = await User.create(newUser);
-
-    if (req.body.roles) {
-      const roles = await Role.findAll({
-        where: {
-          name: { [Op.or]: req.body.roles },
-        },
+    //save user in the database
+  await User.create(newUser)
+    .then((user) => {
+      if (req.body.roles) {
+        Role.findAll({
+          where: {
+            name: {
+              [Op.or]: req.body.roles,
+            },
+          },
+        }).then((roles) => {
+          user.setRoles(roles).then(() => {
+            // Corrected setaRoles to setRoles
+            res.send({
+              message: "User registered successfully!",
+            });
+          });
+        });
+      } else {
+        user.setRoles([1]).then(() => {
+          res.send({
+            message: "User registered successfully!",
+          });
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          error.message ||
+          "somthing error occured while registering a new user.",
       });
-      await user.setRoles(roles);
-    } else {
-      // Set default role to "user" (id = 1)
-      await user.setRoles([1]);
-    }
-
-    res.send({ message: "User registered successfully!" });
-  } catch (error) {
-    res.status(500).send({
-      message: error.message || "Something went wrong while registering a new user.",
     });
-  }
 };
+
 
 exports.signin = async (req, res) => {
   const { username, password } = req.body;

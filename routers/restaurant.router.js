@@ -6,12 +6,12 @@ const { authJwt } = require("../middlewares");
 //Create a restaurant
 //POST http://localhost:5000/api/v1/restaurants/
 router.post(
-  "/",
+  "/postrestaurant",
   [authJwt.verifyToken, authJwt.isModOrAdmin],
   restaurantController.create
 );
 
-//Get all restaurant
+//Get all restaurantF
 router.get("/", restaurantController.getAll);
 
 //Get byId restaurant
