@@ -76,7 +76,7 @@ isModOrAdmin = (req, res, next) => {
 
       user.getRoles().then((roles) => {
         for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "moderator" || roles[i].name === "admin") {
+          if (roles[i].name === "admin" || roles[i].name === "moderator") {
             next();
             return;
           }
@@ -95,4 +95,5 @@ const authJwt = {
   isMod,
   isModOrAdmin,
 };
+
 module.exports = authJwt;

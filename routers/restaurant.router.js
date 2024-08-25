@@ -7,7 +7,6 @@ const { authJwt } = require("../middlewares");
 //POST http://localhost:5000/api/v1/restaurants/
 router.post(
   "/postrestaurant",
-  [authJwt.verifyToken, authJwt.isModOrAdmin],
   restaurantController.create
 );
 
